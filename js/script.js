@@ -2,19 +2,23 @@ const menu = document.querySelector('.nav-menu')
 const btnBurger = document.querySelector('.btn-burger')
 const links = document.querySelectorAll('.nav-menu a')
 const cards = document.querySelectorAll('.opinion-text')
+const elements = document.querySelectorAll('.opinion-img');
+const cardss = document.querySelectorAll('.process-card');
+const year = document.querySelector('#year');
+
 
 btnBurger.addEventListener('click', () => {
     menu.classList.toggle('active')
 })
 
 links.forEach(link => {
-    link.addEventListener('click',() => {
+    link.addEventListener('click', () => {
         menu.classList.remove('active')
     })
 })
 
 document.addEventListener('click', (e) => {
-    if(!menu.contains(e.target) && !btnBurger.contains(e.target)){
+    if (!menu.contains(e.target) && !btnBurger.contains(e.target)) {
         menu.classList.remove('active')
     }
 })
@@ -90,4 +94,62 @@ cards.forEach(card => {
 
 if (year) {
     year.textContent = new Date().getFullYear();
+}
+
+
+if ('IntersectionObserver' in window) {
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active2');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: "0px 0px -200px 0px"
+    });
+
+    elements.forEach(element => {
+        observer.observe(element);
+    });
+
+
+
+
+    const observers = new IntersectionObserver(entries => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add('active3');
+
+
+                observers.unobserve(entry.target);
+
+            }
+
+        });
+
+    }, {
+        threshold: 0.2,
+        rootMargin: "0px 0px -200px 0px"
+    });
+
+    cardss.forEach(card => {
+        observers.observe(card);
+    });
+
+} else {
+
+    elements.forEach(element => {
+        element.classList.add('active2');
+    });
+
+    cardss.forEach(card => {
+        card.classList.add('active3');
+    });
+
 }
